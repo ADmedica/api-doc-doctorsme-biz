@@ -1,0 +1,216 @@
+openapi: 3.0.0
+info:
+  title: chch
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000/v1'
+paths:
+  /qa:
+    post:
+      summary: 相談投稿
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  eueuuuu:
+                    type: string
+      operationId: post-qa-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      description: 相談を投稿する
+    parameters: []
+    get:
+      summary: 相談詳細取得
+      operationId: get-qa
+      responses:
+        '200':
+          description: OK
+  /qa/list:
+    parameters: []
+    get:
+      summary: 相談履歴取得
+      operationId: get-qa-list
+      responses:
+        '200':
+          description: OK
+  /user/signup:
+    parameters: []
+    post:
+      summary: ユーザーサインアップ
+      operationId: post-user-register
+      responses:
+        '200':
+          description: OK
+      description: ''
+      parameters: []
+      security: []
+  /user/signin:
+    post:
+      summary: ''
+      operationId: post-user-login
+      responses:
+        '200':
+          description: OK
+    parameters: []
+components:
+  schemas:
+    QaRes:
+      title: QaRes
+      type: object
+      x-examples:
+        example-1:
+          id: string
+          content: string
+          created: string
+          upload_image_url: string
+      properties:
+        id:
+          type: string
+        content:
+          type: string
+        created:
+          type: string
+        upload_image_url:
+          type: string
+        author_type:
+          type: string
+    Qa:
+      title: QA
+      type: object
+      properties:
+        id:
+          type: string
+        created:
+          type: string
+        expert_category:
+          type: string
+        expert:
+          $ref: '#/components/schemas/Expert'
+        qa_res_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/QaRes'
+        user_id:
+          type: string
+        status:
+          type: string
+          description: |2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              #     START(10, "質問開始"), READY(20, "回答中"), STOP(21, "回答保留"), ANSWER(22, "回答済み"), AGAIN(30, "再質問"), FINISH(40, "質問終了"), FINISH_STAFF(
+              #         41, "質問終了(スタッフ)"),;
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: string
+    Expert:
+      title: Expert
+      type: object
+      properties:
+        id:
+          type: string
+        nick_name:
+          type: string
+        icon_url:
+          type: string
+        expert_category:
+          type: string
+          description: |2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  when "chemist" then return "薬剤師"
+                  when "doctor" then return "医師"
+                  when "dietitian" then return "栄養士"
+                  when "dentist" then return "歯科医"
+                  when "pet" then return "獣医師"
+  securitySchemes:
+    CLIENT_SECRET:
+      name: API Key
+      type: apiKey
+      in: query
