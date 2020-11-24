@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: chch
+  title: DoctorsMeBizAPI
   version: '1.0'
 servers:
   - url: 'http://localhost:3000/v1'
@@ -316,6 +316,8 @@ components:
 
 
 
+
+
               #     START(10, "質問開始"), READY(20, "回答中"), STOP(21, "回答保留"), ANSWER(22, "回答済み"), AGAIN(30, "再質問"), FINISH(40, "質問終了"), FINISH_STAFF(
               #         41, "質問終了(スタッフ)"),;
     User:
@@ -337,6 +339,8 @@ components:
         expert_category:
           type: string
           description: |2
+
+
 
 
 
@@ -468,6 +472,6 @@ components:
       type: apiKey
       in: header
     API_TOKEN:
-      name: ApiToken
+      name: APIToken
       type: apiKey
       in: header
