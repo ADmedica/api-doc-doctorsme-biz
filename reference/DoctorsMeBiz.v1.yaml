@@ -25,6 +25,15 @@ paths:
           application/json:
             schema:
               type: object
+              properties:
+                qa_id:
+                  type: string
+                content:
+                  type: string
+                expert_category:
+                  type: string
+                user_id:
+                  type: string
           application/xml:
             schema:
               type: object
@@ -38,6 +47,20 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QaDetail'
+      security:
+        - API_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                qa_id:
+                  type: string
   /qa/list:
     parameters: []
     get:
@@ -46,6 +69,25 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  qa_list:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Qa'
+      security:
+        - API_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
   /user/signup:
     parameters: []
     post:
@@ -54,9 +96,28 @@ paths:
       responses:
         '200':
           description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
       description: ''
       parameters: []
-      security: []
+      security:
+        - CLIENT_SECRET: []
+        - CLIENT_ID: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_user_id:
+                  type: string
+                  description: goo_id
   /user/signin:
     post:
       summary: ''
@@ -64,6 +125,62 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  API_TOKEN:
+                    type: string
+      security:
+        - CLIENT_SECRET: []
+        - CLIENT_ID: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+          text/html:
+            schema:
+              type: object
+              properties: {}
+          text/plain:
+            schema:
+              type: object
+              properties: {}
+          application/EDI-X12:
+            schema:
+              type: object
+              properties: {}
+          application/EDIFACT:
+            schema:
+              type: object
+              properties: {}
+          application/atom+xml:
+            schema:
+              type: object
+              properties: {}
+          application/font-woff:
+            schema:
+              type: object
+              properties: {}
+          application/gzip:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+      parameters: []
     parameters: []
 components:
   schemas:
@@ -99,15 +216,68 @@ components:
           type: string
         expert:
           $ref: '#/components/schemas/Expert'
-        qa_res_list:
-          type: array
-          items:
-            $ref: '#/components/schemas/QaRes'
         user_id:
           type: string
         status:
           type: string
           description: |2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -204,13 +374,100 @@ components:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   when "chemist" then return "薬剤師"
                   when "doctor" then return "医師"
                   when "dietitian" then return "栄養士"
                   when "dentist" then return "歯科医"
                   when "pet" then return "獣医師"
+    QaDetail:
+      title: QaDetail
+      type: object
+      properties:
+        id:
+          type: string
+        created:
+          type: string
+        expert_category:
+          type: string
+        expert:
+          $ref: '#/components/schemas/Expert'
+        qa_res_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/QaRes'
+        user_id:
+          type: string
+        status:
+          type: string
+          description: |+
+
   securitySchemes:
     CLIENT_SECRET:
-      name: API Key
+      name: ClientSecret
       type: apiKey
-      in: query
+      in: header
+    CLIENT_ID:
+      name: ClientId
+      type: apiKey
+      in: header
+    API_TOKEN:
+      name: ApiToken
+      type: apiKey
+      in: header
