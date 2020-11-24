@@ -1,0 +1,16 @@
+{
+  "title": "QaPost",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "content"
+  ]
+}
