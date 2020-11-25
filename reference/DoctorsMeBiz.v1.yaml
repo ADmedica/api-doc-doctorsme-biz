@@ -30,12 +30,17 @@ paths:
               schema:
                 type: object
                 properties:
-                  qa_id:
-                    type: string
+                  qa:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: '1'
               examples:
                 example-1:
                   value:
-                    qa_id: '1'
+                    qa:
+                      id: '1'
         '400':
           description: Bad Request
           content:
@@ -193,7 +198,27 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Qa'
-              examples: {}
+              examples:
+                example-1:
+                  value:
+                    qa_list:
+                      - id: '1'
+                        created_at: '2019-08-24T14:15:22Z'
+                        expert_category: doctor
+                        expert:
+                          id: '1'
+                          nick_name: ドクターズミー専門家
+                          icon_url: 'https://doctors-me.com/assets/media/icon-dietitian-69c409691f60651d21f5220c69b79bc68f0743d87086666ab2b67448929554c7.png'
+                          expert_category: doctor
+                        user:
+                          id: '1'
+                        status: '10'
+                        first_qa_message:
+                          id: '1'
+                          content: 相談内容
+                          created_at: '2019-08-24T14:15:22Z'
+                          upload_image_url: 'https://doctorsme-production.s3.amazonaws.com/contents/contents/theme/thum_6555_1583732503623.png'
+                          author_type: user
           headers: {}
         '400':
           description: Bad Request
@@ -246,11 +271,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/UserSign'
               examples:
                 example-1:
                   value:
-                    id: '1'
+                    user:
+                      id: '1'
+                      pass: arsocehucrsaochuras
         '400':
           description: Bad Request
           content:
@@ -304,13 +334,13 @@ paths:
                 properties:
                   API_TOKEN:
                     type: string
-                  client_user_id:
-                    type: string
+                    example: oaeuaouaouaoeuuao
+                required:
+                  - API_TOKEN
               examples:
                 example-1:
                   value:
-                    API_TOKEN: saochusraohusraohus
-                    client_user_id: '1'
+                    API_TOKEN: oaeuaouaouaoeuuao
         '400':
           description: Bad Request
           content:
@@ -345,12 +375,14 @@ paths:
             schema:
               type: object
               properties:
-                user_id:
-                  type: string
+                user:
+                  $ref: '#/components/schemas/UserSign'
             examples:
               example-1:
                 value:
-                  user_id: '1'
+                  user:
+                    id: '1'
+                    pass: arsocehucrsaochuras
           application/xml:
             schema:
               type: object
@@ -607,6 +639,19 @@ components:
           example: '1'
       required:
         - id
+    UserSign:
+      title: UserSign
+      type: object
+      properties:
+        id:
+          type: string
+          description: ''
+          example: '1'
+        pass:
+          type: string
+          example: arsocehucrsaochuras
+      required:
+        - pass
   securitySchemes:
     CLIENT_SECRET:
       name: CLIENT_SECRET
