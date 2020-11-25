@@ -32,6 +32,10 @@ paths:
                 properties:
                   qa_id:
                     type: string
+              examples:
+                example-1:
+                  value:
+                    qa_id: '1'
         '400':
           description: Bad Request
           content:
