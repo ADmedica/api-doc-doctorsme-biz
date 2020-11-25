@@ -28,6 +28,12 @@ paths:
                 properties:
                   eueuuuu:
                     type: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       operationId: post-qa-post
       requestBody:
         content:
@@ -60,6 +66,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QaDetail'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  '':
+                    $ref: '#/components/schemas/Error'
       security:
         - API_TOKEN: []
       requestBody:
@@ -381,6 +396,36 @@ components:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               #     START(10, "質問開始"), READY(20, "回答中"), STOP(21, "回答保留"), ANSWER(22, "回答済み"), AGAIN(30, "再質問"), FINISH(40, "質問終了"), FINISH_STAFF(
               #         41, "質問終了(スタッフ)"),;
         first_qa_res:
@@ -389,6 +434,7 @@ components:
     Expert:
       title: Expert
       type: object
+      description: 専門家
       properties:
         id:
           type: string
@@ -398,146 +444,13 @@ components:
           type: string
         expert_category:
           type: string
-          description: |2
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  when "chemist" then return "薬剤師"
-                  when "doctor" then return "医師"
-                  when "dietitian" then return "栄養士"
-                  when "dentist" then return "歯科医"
-                  when "pet" then return "獣医師"
-      description: 専門家
+          description: ''
+          enum:
+            - doctor
+            - chemist
+            - dietitian
+            - dentist
+            - pet
     QaDetail:
       title: QaDetail
       type: object
@@ -561,6 +474,24 @@ components:
           description: |+
 
       description: 相談内容（詳細）
+    Error:
+      title: Error
+      type: object
+      description: エラー
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        status:
+          type: string
+          description: Httpステータスコード
+          enum:
+            - '200'
+            - '404'
+            - '400'
+            - '401'
+            - '500'
   securitySchemes:
     CLIENT_SECRET:
       name: CLIENT_SECRET
