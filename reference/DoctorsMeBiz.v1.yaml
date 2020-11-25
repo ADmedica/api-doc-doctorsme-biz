@@ -17,7 +17,8 @@ paths:
   /qa:
     post:
       summary: 相談投稿
-      tags: []
+      tags:
+        - qa
       responses:
         '200':
           description: OK
@@ -456,6 +457,7 @@ components:
         created:
           type: string
           format: date-time
+          example: '20200101120000'
         expert_category:
           type: string
           description: 専門家のカテゴリー
@@ -529,3 +531,6 @@ components:
 tags:
   - name: qa
   - name: user
+security:
+  - CLIENT_SECRET: []
+  - CLIENT_ID: []
