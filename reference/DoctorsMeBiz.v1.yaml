@@ -93,6 +93,10 @@ paths:
               properties: {}
         description: ''
       description: 相談を投稿する
+      security:
+        - API_TOKEN: []
+        - CLIENT_SECRET: []
+        - CLIENT_ID: []
     parameters: []
     get:
       summary: 相談詳細取得
@@ -160,6 +164,8 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - API_TOKEN: []
+        - CLIENT_SECRET: []
+        - CLIENT_ID: []
       description: 特定の相談内容を取得する。
       tags:
         - qa
@@ -216,6 +222,8 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - API_TOKEN: []
+        - CLIENT_SECRET: []
+        - CLIENT_ID: []
       description: 特定ユーザーの相談内容をすべて取得する。
       tags:
         - qa
