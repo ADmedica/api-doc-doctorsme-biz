@@ -28,8 +28,27 @@ paths:
                 properties:
                   eueuuuu:
                     type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers: {}
           content:
             application/json:
               schema:
@@ -47,6 +66,13 @@ paths:
                   type: string
                 expert_category:
                   type: string
+                  description: 専門家のカテゴリー
+                  enum:
+                    - doctor
+                    - chemist
+                    - dietitian
+                    - dentist
+                    - pet
                 user_id:
                   type: string
           application/xml:
@@ -66,19 +92,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QaDetail'
+              examples:
+                example-1:
+                  value:
+                    id: '1'
+                    created: string
+                    expert_category: doctor
+                    expert:
+                      id: string
+                      nick_name: string
+                      icon_url: string
+                      expert_category: doctor
+                    qa_res_list:
+                      - id: string
+                        content: string
+                        created: string
+                        upload_image_url: string
+                        author_type: user
+                    user:
+                      id: string
+                    status: string
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '401':
           description: Unauthorized
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  error:
-                    $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
         '404':
           description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers: {}
           content:
             application/json:
               schema:
@@ -96,7 +150,7 @@ paths:
             examples:
               example-1:
                 value:
-                  qa_id: string
+                  qa_id: '1'
       description: 特定の相談内容を取得する。
       tags:
         - qa
@@ -117,6 +171,31 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Qa'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       security:
         - API_TOKEN: []
       requestBody:
@@ -142,10 +221,26 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  user_id:
-                    type: string
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       description: ユーザーを登録して、user_idを得る。
       parameters: []
       security:
@@ -178,6 +273,31 @@ paths:
                     type: string
                   client_user_id:
                     type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       security:
         - CLIENT_SECRET: []
         - CLIENT_ID: []
@@ -227,7 +347,7 @@ paths:
               properties: {}
         description: ''
       parameters: []
-      description: user_idを利用して、他のAPI呼び出しに必要なAPI_TOKENを得る。
+      description: user_idを利用して、他のAPI呼び出しに必要なAPI_TOKEN（有効期限付き）を得る。
       tags:
         - user
     parameters: []
@@ -242,6 +362,7 @@ components:
           content: string
           created: string
           upload_image_url: string
+      description: 相談返答
       properties:
         id:
           type: string
@@ -249,28 +370,94 @@ components:
           type: string
         created:
           type: string
+          format: date-time
         upload_image_url:
           type: string
+          format: uri
         author_type:
           type: string
-      description: 相談返答
+          enum:
+            - user
+            - expert
     Qa:
       title: QA
       type: object
+      description: 相談内容（簡易）
       properties:
         id:
           type: string
+          description: QAのID
         created:
           type: string
+          format: date-time
+          description: QA作成日時
         expert_category:
           type: string
+          description: 専門家のカテゴリー
+          enum:
+            - doctor
+            - chemist
+            - dietitian
+            - dentist
+            - pet
         expert:
           $ref: '#/components/schemas/Expert'
-        user_id:
-          type: string
+        user:
+          $ref: '#/components/schemas/User'
         status:
           type: string
-          description: |2
+          description: |
+            10:質問開始
+            20:回答中
+            22:回答済み
+            30:再質問
+            40:質問終了
+            41:スタッフによる終了
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -443,9 +630,15 @@ components:
 
               #     START(10, "質問開始"), READY(20, "回答中"), STOP(21, "回答保留"), ANSWER(22, "回答済み"), AGAIN(30, "再質問"), FINISH(40, "質問終了"), FINISH_STAFF(
               #         41, "質問終了(スタッフ)"),;
+          enum:
+            - '10'
+            - '20'
+            - '22'
+            - '30'
+            - '40'
+            - '41'
         first_qa_res:
           $ref: '#/components/schemas/QaRes'
-      description: 相談内容（簡易）
     Expert:
       title: Expert
       type: object
@@ -453,13 +646,16 @@ components:
       properties:
         id:
           type: string
+          description: 専門家ID
         nick_name:
           type: string
+          description: 専門家のニックネーム
         icon_url:
           type: string
+          description: 専門家のアイコンURL
         expert_category:
           type: string
-          description: ''
+          description: 専門家のカテゴリー
           enum:
             - doctor
             - chemist
@@ -469,26 +665,34 @@ components:
     QaDetail:
       title: QaDetail
       type: object
+      description: 相談内容（詳細）
       properties:
         id:
           type: string
         created:
           type: string
+          format: date-time
         expert_category:
           type: string
+          description: 専門家のカテゴリー
+          enum:
+            - doctor
+            - chemist
+            - dietitian
+            - dentist
+            - pet
         expert:
           $ref: '#/components/schemas/Expert'
         qa_res_list:
           type: array
           items:
             $ref: '#/components/schemas/QaRes'
-        user_id:
-          type: string
+        user:
+          $ref: '#/components/schemas/User'
         status:
           type: string
           description: |+
 
-      description: 相談内容（詳細）
     Error:
       title: Error
       type: object
@@ -496,17 +700,25 @@ components:
       properties:
         message:
           type: string
+          description: エラーメッセージ
         code:
           type: string
+          description: エラーの内容に対応したコード
         status:
           type: string
-          description: Httpステータスコード
+          description: HTTPステータスコード
           enum:
             - '200'
             - '404'
             - '400'
             - '401'
             - '500'
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: string
   securitySchemes:
     CLIENT_SECRET:
       name: CLIENT_SECRET
