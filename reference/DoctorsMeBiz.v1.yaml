@@ -7,7 +7,10 @@ info:
     url: 'http://ad-medi.com/'
     email: dmadmin@ad-medi.com
   termsOfService: 'http://ad-medi.com/'
-  description: DoctorsMeの専門家に対して医療相談を行うためのAPIです。
+  description: |-
+    DoctorsMeの専門家に対して医療相談を行うためのAPIです。
+
+    日付フォーマット：ISO 8601
 servers:
   - url: 'http://localhost:3000/v1'
     description: localhost
@@ -96,19 +99,19 @@ paths:
               examples:
                 example-1:
                   value:
-                    id: '1'
-                    created: string
+                    id: string
+                    created_at: '20200101120000'
                     expert_category: doctor
                     expert:
                       id: string
                       nick_name: string
                       icon_url: string
                       expert_category: doctor
-                    qa_res_list:
+                    qa_message_list:
                       - id: string
                         content: string
-                        created: string
-                        upload_image_url: string
+                        created_at: '2019-08-24T14:15:22Z'
+                        upload_image_url: 'http://example.com'
                         author_type: user
                     user:
                       id: string
@@ -173,6 +176,27 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Qa'
+              examples:
+                example-1:
+                  value:
+                    qa_list:
+                      - id: string
+                        created_at: '2019-08-24T14:15:22Z'
+                        expert_category: doctor
+                        expert:
+                          id: string
+                          nick_name: string
+                          icon_url: string
+                          expert_category: doctor
+                        user:
+                          id: string
+                        status: '10'
+                        first_qa_message:
+                          id: string
+                          content: string
+                          created_at: '2019-08-24T14:15:22Z'
+                          upload_image_url: 'http://example.com'
+                          author_type: user
         '400':
           description: Bad Request
           content:
@@ -355,14 +379,14 @@ paths:
     parameters: []
 components:
   schemas:
-    QaRes:
-      title: QaRes
+    QaMessage:
+      title: QaMessage
       type: object
       x-examples:
         example-1:
           id: string
           content: string
-          created: string
+          created_at: string
           upload_image_url: string
       description: 相談返答
       properties:
@@ -370,7 +394,7 @@ components:
           type: string
         content:
           type: string
-        created:
+        created_at:
           type: string
           format: date-time
         upload_image_url:
@@ -389,7 +413,7 @@ components:
         id:
           type: string
           description: QAのID
-        created:
+        created_at:
           type: string
           format: date-time
           description: QA作成日時
@@ -422,8 +446,8 @@ components:
             - '30'
             - '40'
             - '41'
-        first_qa_res:
-          $ref: '#/components/schemas/QaRes'
+        first_qa_message:
+          $ref: '#/components/schemas/QaMessage'
     Expert:
       title: Expert
       type: object
@@ -454,7 +478,7 @@ components:
       properties:
         id:
           type: string
-        created:
+        created_at:
           type: string
           format: date-time
           example: '20200101120000'
@@ -469,10 +493,10 @@ components:
             - pet
         expert:
           $ref: '#/components/schemas/Expert'
-        qa_res_list:
+        qa_message_list:
           type: array
           items:
-            $ref: '#/components/schemas/QaRes'
+            $ref: '#/components/schemas/QaMessage'
         user:
           $ref: '#/components/schemas/User'
         status:
