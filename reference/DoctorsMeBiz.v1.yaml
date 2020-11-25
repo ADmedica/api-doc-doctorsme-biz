@@ -131,6 +131,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples:
+                example-1:
+                  value:
+                    message: 不正なリクエストフォーマットです
+                    code: '1000'
+                    status: '400'
           headers: {}
         '401':
           description: Unauthorized
