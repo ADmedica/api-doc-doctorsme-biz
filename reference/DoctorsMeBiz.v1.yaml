@@ -247,6 +247,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+              examples:
+                example-1:
+                  value:
+                    id: '1'
         '400':
           description: Bad Request
           content:
