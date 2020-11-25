@@ -124,6 +124,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              examples: {}
         '404':
           description: Not Found
           content:
@@ -406,230 +407,13 @@ components:
           $ref: '#/components/schemas/User'
         status:
           type: string
-          description: |
+          description: |-
             10:質問開始
             20:回答中
             22:回答済み
             30:再質問
             40:質問終了
             41:スタッフによる終了
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              #     START(10, "質問開始"), READY(20, "回答中"), STOP(21, "回答保留"), ANSWER(22, "回答済み"), AGAIN(30, "再質問"), FINISH(40, "質問終了"), FINISH_STAFF(
-              #         41, "質問終了(スタッフ)"),;
           enum:
             - '10'
             - '20'
@@ -691,8 +475,13 @@ components:
           $ref: '#/components/schemas/User'
         status:
           type: string
-          description: |+
-
+          description: |-
+            10:質問開始
+            20:回答中
+            22:回答済み
+            30:再質問
+            40:質問終了
+            41:スタッフによる終了
     Error:
       title: Error
       type: object
@@ -713,6 +502,11 @@ components:
             - '400'
             - '401'
             - '500'
+      x-examples:
+        Unauthorized:
+          message: CLIENT_ID/CLIENT_SECRETの値が正しくありません。
+          code: '1000'
+          status: '401'
     User:
       title: User
       type: object
