@@ -66,6 +66,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QaDetail'
+        '400':
+          description: Bad Request
         '401':
           description: Unauthorized
           content:
@@ -73,8 +75,14 @@ paths:
               schema:
                 type: object
                 properties:
-                  '':
+                  error:
                     $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       security:
         - API_TOKEN: []
       requestBody:
@@ -263,6 +271,13 @@ components:
         status:
           type: string
           description: |2
+
+
+
+
+
+
+
 
 
 
