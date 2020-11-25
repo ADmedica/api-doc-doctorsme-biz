@@ -30,7 +30,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  eueuuuu:
+                  qa_id:
                     type: string
         '400':
           description: Bad Request
@@ -64,8 +64,6 @@ paths:
             schema:
               type: object
               properties:
-                qa_id:
-                  type: string
                 content:
                   type: string
                 expert_category:
@@ -96,32 +94,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QaDetail'
-              examples:
-                example-1:
-                  value:
-                    id: string
-                    created_at: '20200101120000'
-                    expert_category: doctor
-                    expert:
-                      id: string
-                      nick_name: string
-                      icon_url: string
-                      expert_category: doctor
-                    qa_message_list:
-                      - id: string
-                        content: string
-                        created_at: '2019-08-24T14:15:22Z'
-                        upload_image_url: 'http://example.com'
-                        author_type: user
-                    user:
-                      id: string
-                    status: string
+              examples: {}
+          headers: {}
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+          headers: {}
         '401':
           description: Unauthorized
           content:
@@ -159,6 +140,7 @@ paths:
       description: 特定の相談内容を取得する。
       tags:
         - qa
+      parameters: []
   /qa/list:
     parameters: []
     get:
@@ -176,27 +158,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Qa'
-              examples:
-                example-1:
-                  value:
-                    qa_list:
-                      - id: string
-                        created_at: '2019-08-24T14:15:22Z'
-                        expert_category: doctor
-                        expert:
-                          id: string
-                          nick_name: string
-                          icon_url: string
-                          expert_category: doctor
-                        user:
-                          id: string
-                        status: '10'
-                        first_qa_message:
-                          id: string
-                          content: string
-                          created_at: '2019-08-24T14:15:22Z'
-                          upload_image_url: 'http://example.com'
-                          author_type: user
+              examples: {}
+          headers: {}
         '400':
           description: Bad Request
           content:
@@ -392,8 +355,10 @@ components:
       properties:
         id:
           type: string
+          example: '1'
         content:
           type: string
+          example: 相談内容
         created_at:
           type: string
           format: date-time
@@ -405,6 +370,12 @@ components:
           enum:
             - user
             - expert
+      required:
+        - id
+        - content
+        - created_at
+        - upload_image_url
+        - author_type
     Qa:
       title: QA
       type: object
@@ -413,6 +384,7 @@ components:
         id:
           type: string
           description: QAのID
+          example: '1'
         created_at:
           type: string
           format: date-time
@@ -448,6 +420,14 @@ components:
             - '41'
         first_qa_message:
           $ref: '#/components/schemas/QaMessage'
+      required:
+        - id
+        - created_at
+        - expert_category
+        - expert
+        - user
+        - status
+        - first_qa_message
     Expert:
       title: Expert
       type: object
@@ -456,12 +436,15 @@ components:
         id:
           type: string
           description: 専門家ID
+          example: '1'
         nick_name:
           type: string
           description: 専門家のニックネーム
+          example: ドクターズミー専門家
         icon_url:
           type: string
           description: 専門家のアイコンURL
+          format: uri
         expert_category:
           type: string
           description: 専門家のカテゴリー
@@ -471,6 +454,11 @@ components:
             - dietitian
             - dentist
             - pet
+      required:
+        - id
+        - nick_name
+        - icon_url
+        - expert_category
     QaDetail:
       title: QaDetail
       type: object
@@ -478,10 +466,10 @@ components:
       properties:
         id:
           type: string
+          example: '1'
         created_at:
           type: string
           format: date-time
-          example: '20200101120000'
         expert_category:
           type: string
           description: 専門家のカテゴリー
@@ -501,6 +489,13 @@ components:
           $ref: '#/components/schemas/User'
         status:
           type: string
+          enum:
+            - '10'
+            - '20'
+            - '22'
+            - '30'
+            - '40'
+            - '41'
           description: |-
             10:質問開始
             20:回答中
@@ -508,17 +503,32 @@ components:
             30:再質問
             40:質問終了
             41:スタッフによる終了
+      required:
+        - id
+        - created_at
+        - expert_category
+        - expert
+        - qa_message_list
+        - user
+        - status
     Error:
       title: Error
       type: object
       description: エラー
+      x-examples:
+        Unauthorized:
+          message: CLIENT_ID/CLIENT_SECRETの値が正しくありません。
+          code: '1000'
+          status: '401'
       properties:
         message:
           type: string
           description: エラーメッセージ
+          example: 認証エラーです
         code:
           type: string
           description: エラーの内容に対応したコード
+          example: '1000'
         status:
           type: string
           description: HTTPステータスコード
@@ -528,17 +538,19 @@ components:
             - '400'
             - '401'
             - '500'
-      x-examples:
-        Unauthorized:
-          message: CLIENT_ID/CLIENT_SECRETの値が正しくありません。
-          code: '1000'
-          status: '401'
+      required:
+        - message
+        - code
+        - status
     User:
       title: User
       type: object
       properties:
         id:
           type: string
+          example: '1'
+      required:
+        - id
   securitySchemes:
     CLIENT_SECRET:
       name: CLIENT_SECRET
