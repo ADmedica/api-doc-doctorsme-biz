@@ -304,7 +304,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      description: ユーザーを登録して、user_idを得る。
+      description: client_user_idをパラメータに指定してユーザーを登録し、DoctorsMeBizのuser_id/passを得る。
       parameters: []
       security:
         - CLIENT_SECRET: []
@@ -425,7 +425,7 @@ paths:
               properties: {}
         description: ''
       parameters: []
-      description: user_idを利用して、他のAPI呼び出しに必要なAPI_TOKEN（有効期限付き）を得る。
+      description: サインアップ時に得られたuserid/passを利用して、他のAPI呼び出しに必要なAPI_TOKEN（有効期限付き）を得る。
       tags:
         - user
     parameters: []
