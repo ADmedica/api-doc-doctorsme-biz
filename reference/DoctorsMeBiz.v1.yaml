@@ -1,9 +1,18 @@
 openapi: 3.0.0
 info:
   title: DoctorsMeBizAPI
-  version: '1.0'
+  version: '`'
+  contact:
+    name: アドメディカ
+    url: 'http://ad-medi.com/'
+    email: dmadmin@ad-medi.com
+  termsOfService: 'http://ad-medi.com/'
+  description: DoctorsMeの専門家に対して医療相談を行うためのAPIです。
 servers:
   - url: 'http://localhost:3000/v1'
+    description: localhost
+  - description: staging
+    url: 'http://localhost:3000/v1'
 paths:
   /qa:
     post:
@@ -61,7 +70,13 @@ paths:
               properties:
                 qa_id:
                   type: string
+            examples:
+              example-1:
+                value:
+                  qa_id: string
       description: 特定の相談内容を取得する。
+      tags:
+        - qa
   /qa/list:
     parameters: []
     get:
@@ -90,6 +105,8 @@ paths:
                 user_id:
                   type: string
       description: 特定ユーザーの相談内容をすべて取得する。
+      tags:
+        - qa
   /user/signup:
     parameters: []
     post:
@@ -120,6 +137,8 @@ paths:
                 client_user_id:
                   type: string
                   description: goo_id
+      tags:
+        - user
   /user/signin:
     post:
       summary: ユーザーサインイン
@@ -186,6 +205,8 @@ paths:
         description: ''
       parameters: []
       description: user_idを利用して、他のAPI呼び出しに必要なAPI_TOKENを得る。
+      tags:
+        - user
     parameters: []
 components:
   schemas:
@@ -209,6 +230,7 @@ components:
           type: string
         author_type:
           type: string
+      description: 相談返答
     Qa:
       title: QA
       type: object
@@ -335,16 +357,35 @@ components:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               #     START(10, "質問開始"), READY(20, "回答中"), STOP(21, "回答保留"), ANSWER(22, "回答済み"), AGAIN(30, "再質問"), FINISH(40, "質問終了"), FINISH_STAFF(
               #         41, "質問終了(スタッフ)"),;
         first_qa_res:
           $ref: '#/components/schemas/QaRes'
-    User:
-      title: User
-      type: object
-      properties:
-        id:
-          type: string
+      description: 相談内容（簡易）
     Expert:
       title: Expert
       type: object
@@ -467,11 +508,36 @@ components:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                   when "chemist" then return "薬剤師"
                   when "doctor" then return "医師"
                   when "dietitian" then return "栄養士"
                   when "dentist" then return "歯科医"
                   when "pet" then return "獣医師"
+      description: 専門家
     QaDetail:
       title: QaDetail
       type: object
@@ -494,16 +560,20 @@ components:
           type: string
           description: |+
 
+      description: 相談内容（詳細）
   securitySchemes:
     CLIENT_SECRET:
-      name: ClientSecret
+      name: CLIENT_SECRET
       type: apiKey
       in: header
     CLIENT_ID:
-      name: ClientId
+      name: CLIENT_ID
       type: apiKey
       in: header
     API_TOKEN:
-      name: APIToken
+      name: API_TOKEN
       type: apiKey
       in: header
+tags:
+  - name: qa
+  - name: user
