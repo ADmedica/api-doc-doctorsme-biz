@@ -441,7 +441,8 @@ paths:
       responses:
         '200':
           description: OK
-      description: QAのステータスを「終了」に変更します。
+      description: |
+        QAのステータスを質問終了（40）に変更します。
       security:
         - API_TOKEN: []
         - CLIENT_SECRET: []
