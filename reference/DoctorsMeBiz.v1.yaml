@@ -460,6 +460,8 @@ paths:
                 content:
                   type: string
                   description: お礼メッセージ
+      tags:
+        - qa
 components:
   schemas:
     QaMessage:
