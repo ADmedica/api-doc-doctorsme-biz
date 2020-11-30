@@ -90,6 +90,11 @@ paths:
                     - pet
                 user_id:
                   type: string
+                qa_id:
+                  type: string
+                  description: 作成済みのQAにメッセージを追加する場合
+              required:
+                - content
             examples:
               example-1:
                 value:
@@ -429,6 +434,32 @@ paths:
       tags:
         - user
     parameters: []
+  /qa/finish:
+    post:
+      summary: ''
+      operationId: post-qa-finish
+      responses:
+        '200':
+          description: OK
+      description: QAのステータスを「終了」に変更します。
+      security:
+        - API_TOKEN: []
+        - CLIENT_SECRET: []
+        - CLIENT_ID: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                qa_id:
+                  type: string
+                star:
+                  type: integer
+                  description: 満足度（1〜5）
+                content:
+                  type: string
+                  description: お礼メッセージ
 components:
   schemas:
     QaMessage:
@@ -545,6 +576,7 @@ components:
             - dietitian
             - dentist
             - pet
+            - counselor
       required:
         - id
         - nick_name
