@@ -436,7 +436,7 @@ paths:
     parameters: []
   /qa/finish:
     post:
-      summary: ''
+      summary: 相談終了
       operationId: post-qa-finish
       responses:
         '200':
